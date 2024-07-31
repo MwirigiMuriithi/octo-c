@@ -1,32 +1,22 @@
-#include <stdio.h>
+#include <gtk/gtk.h>
+#include "gui.h"
 #include "function.h"
+#include "db.h"
 
-void displayMenu() {
-    printf("1. Add Animals\n");
-    printf("2. View Farm Inventory\n");
-    printf("3. Exit\n");
-}
-
-int main() {
+int main(int argc, char *argv[]) {
+    GtkApplication *app;
+    int status;
     struct Farm farm;
-    initializeFarm(&farm, MAX_ANIMALS); // Initial capacity
 
-    int choice;
-    while (1) {
-        displayMenu();
-        choice = validateIntegerInput("Enter your choice: ");
-        switch (choice) {
-            case 1:
-                populateFarm(&farm, validateIntegerInput("Enter the number of animals: "));
-                break;
-            case 2:
-                printFarm(&farm);
-                break;
-            case 3:
-                cleanupFarm(&farm);
-                return 0;
-            default:
-                printf("Invalid choice. Please try again.\n");
-        }
-    }
+    initDatabase();
+    initializeFarm(&farm, MAX_ANIMALS);
+
+    app = gtk_application_new("com.example.farm", G_APPLICATION_DEFAULT_FLAGS);
+    g_signal_connect(app, "activate", G_CALLBACK(activate), &farm);
+    status = g_application_run(G_APPLICATION(app), argc, argv);
+
+    cleanupFarm(&farm);
+    g_object_unref(app);
+
+    return status;
 }
