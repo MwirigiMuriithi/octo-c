@@ -2,9 +2,9 @@
 #define GUI_H
 
 #include <gtk/gtk.h>
-#include "function.h"
+#include "db.h" // Assuming this includes necessary definitions for the Farm structure and animal data handling
 
-void activate(GtkApplication *app, gpointer user_data);
+// Function to initialize the GUI
 void setup_gui(GtkApplication *app, struct Farm *farm);
 
-#endif
+#endif // GUI_H

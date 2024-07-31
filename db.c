@@ -116,3 +116,26 @@ void loadAnimalsFromDatabase(struct Farm *farm) {
 	sqlite3_finalize(stmt);
 	sqlite3_close(db);
 }
+
+void removeAnimalFromDatabase(int tagNumber) {
+    sqlite3 *db;
+    char *errMsg = 0;
+    int rc;
+    char sql[256];
+
+    rc = sqlite3_open(DB_PATH, &db);
+    if (rc) {
+        fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+        return;
+    }
+
+    snprintf(sql, sizeof(sql), "DELETE FROM Animals WHERE TagNumber = %d;", tagNumber);
+
+    rc = sqlite3_exec(db, sql, 0, 0, &errMsg);
+    if (rc != SQLITE_OK) {
+        fprintf(stderr, "SQL error: %s\n", errMsg);
+        sqlite3_free(errMsg);
+    }
+
+    sqlite3_close(db);
+}

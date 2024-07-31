@@ -77,6 +77,7 @@ int validateIntegerInput(const char *prompt);
 void initDatabase(void);
 void addAnimalToDatabase(const struct Animal *animal);
 void loadAnimalsFromDatabase(struct Farm *farm);
+void removeAnimalFromDatabase(int tagNumber);
 
 #endif
 
