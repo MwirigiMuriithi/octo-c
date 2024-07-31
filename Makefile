@@ -1,6 +1,6 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c99 -m64
-LDFLAGS =
+CFLAGS = -Wall -Wextra -std=c99 -m64 `pkg-config --cflags gtk+-3.0`
+LDFLAGS = `pkg-config --libs gtk+-3.0`
 
 all: main
 
